@@ -174,8 +174,8 @@ class ElectionManager:
         self.votes = [Vote(row) for index, row in votetable.iterrows()]
 
         self.n_winners = n_winners
-        self.quota = np.floor(len(votetable) / (n_winners + 1)) + 1  # minimum number of votes required to win
-
+        # self.quota = np.floor(len(votetable) / (n_winners + 1)) + 1  # minimum number of votes required to win
+        self.quota = np.ceil(len(votetable) / (n_winners + 1)) + 1
         self.candidates = votetable.keys().to_list()
         self.remaining_candidates = votetable.keys().to_list()
         self.winning_candidates = []
@@ -190,6 +190,7 @@ class ElectionManager:
         for round in range(1, len(self.candidates) + 1):
             print(f"Round {round}")
             result = self.calculate_total(self.remaining_candidates)
+            print(result)
             result['Round'] = round
             self.result_record.append(result)
 
